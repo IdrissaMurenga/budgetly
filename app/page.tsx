@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import WelcomePage from "./components/WelcomePage";
+import HomePage from "./components/HomePage";
 
 export default function Home() {
   return (
     <Box>
-      <WelcomePage />
+      <HomePage />
     </Box>
   );
 }
