@@ -28,9 +28,14 @@ export const system = createSystem(defaultConfig, {
     breakpoints: {
       base: '0',
       sm: '375px',
-      md: '47.5rem', // ~760px
-      lg: '62rem', // ~992px
-      xl: '80rem', // ~1280px
+      md: '47.5rem', 
+      lg: '62rem',
+      xl: '80rem',
     },
+  },
+  globalCss: {
+    body : {
+      background: '#e7e8ed',
+    }
   },
 })

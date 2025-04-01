@@ -1,5 +1,5 @@
 
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { MdDashboard } from 'react-icons/md'
 import { IconType } from 'react-icons';
 import { FaMoneyBillTransfer } from "react-icons/fa6";
@@ -21,8 +21,8 @@ interface NavLinkProps {
 }
 const NavLinks:FC<NavLinkProps> = ({ name, icon }) => {
     return (
-    <Link px={2} py={1} rounded={'md'} _hover={{ textDecoration: 'none', bg: 'text-secondary' }} href={'#'}>
-      <HStack fontSize='1.1rem' _hover={{bg: 'text-secondary', color: 'white' }}>
+    <Link px={2} py={1} rounded={'md'} href={'#'}>
+      <HStack fontSize='1.1rem'>
           <Icon as={icon} fill='text-secondary' />
           <Text>{name}</Text>
       </HStack>
