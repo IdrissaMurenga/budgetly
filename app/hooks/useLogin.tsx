@@ -31,7 +31,7 @@ const useLogin = () => {
 
                 if (data?.login) {
                     await client.resetStore()
-                    router.replace('/pages/main')
+                    router.replace('/pages/main/dashboard')
                 }
             } catch (error) {
                 if (error instanceof ApolloError) {

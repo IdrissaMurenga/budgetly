@@ -18,7 +18,7 @@ const Navbar = () => {
                     <Image src='/logo.png' alt='logo image' w='55px' />
                     <HStack gap={4} display={{ base: 'none', md: 'flex' }}>
                             {LinkItems.map((link) => (
-                                <NavLinks key={link.name} name={link.name} icon={link.icon} />
+                                <NavLinks key={link.name} name={link.name} icon={link.icon} href={link.href} />
                             ))}
                             {/* <Input placeholder='search here.....' w='340px' border='1px solid #3855B3'/> */}
                     </HStack>
@@ -31,7 +31,7 @@ const Navbar = () => {
                     <Box pb={4} display={{ md: 'none' }}>
                         <Stack as={'nav'} gap={4}>
                             {LinkItems.map((link) => (
-                                <NavLinks key={link.name} name={link.name} icon={link.icon} />
+                                <NavLinks key={link.name} name={link.name} icon={link.icon} href={link.href} />
                             ))}
                         </Stack>
                     </Box>
