@@ -1,18 +1,19 @@
 'use client'
-import { useMutation, useQuery, useApolloClient } from '@apollo/client'
+import { useMutation, useApolloClient, ApolloError } from '@apollo/client'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { LOGIN } from '../graphQL/mutations/user.mutation'
-import { GET_USER } from '../graphQL/queries/user.query'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import { toaster } from '@/components/ui/toaster'
 
-
-
+interface LoginInput {
+    email: string
+    password: string
+}
 
 const useLogin = () => {
     const router = useRouter()
     const [login, {loading}] = useMutation(LOGIN)
-
     const client = useApolloClient()
 
     const formik = useFormik({
@@ -24,7 +25,7 @@ const useLogin = () => {
             email: Yup.string().email().required('Email is required'),
             password: Yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
         }),
-        onSubmit: async (values) => {
+        onSubmit: async (values, {setFieldError, setSubmitting}) => {
             try {
                 const { data } = await login({ variables: { input: values } })
 
@@ -32,13 +33,25 @@ const useLogin = () => {
                     await client.resetStore()
                     router.replace('/pages/main')
                 }
-                router.push('/pages/main')
             } catch (error) {
-                console.error('login error',error)
+                if (error instanceof ApolloError) {
+                    const erroMessage = error.graphQLErrors[0]?.message || 'An error occurred during login'
+                    if(erroMessage.includes('password')) {
+                        setFieldError('password',erroMessage)
+                    } else {
+                        toaster.create({
+                            title: erroMessage,
+                            type: 'error',
+                            duration: 3000,
+                        })
+                    }
+                }
+            } finally {
+                setSubmitting(false)
             }
         },
     })
-    return {formik}
+    return { formik, loading }
 }
 
 export default useLogin

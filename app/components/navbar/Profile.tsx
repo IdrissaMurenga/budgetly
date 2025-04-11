@@ -33,10 +33,19 @@ const Profile = () => {
                     </Avatar.Root>
                 </Button>
             </Menu.Trigger>
-            <Text >{user?.firstName}<br />{user?.lastName}</Text>
             <Portal>
                 <Menu.Positioner>
                     <Menu.Content bgColor='white'>
+                        <Menu.Item
+                            value='name' 
+                            _hover={{ bg: "none" }} 
+                            fontSize="1rem" 
+                            p={4} 
+                            fontWeight="bold" 
+                            color="bg-secondary"
+                        >
+                            {user?.firstName} {user?.lastName}
+                        </Menu.Item>
                         <Menu.Item 
                             value="setting" 
                             color='text-primary' 

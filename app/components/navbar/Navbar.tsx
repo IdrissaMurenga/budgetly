@@ -9,8 +9,8 @@ import Profile from './Profile'
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false)
     return (
-        <Box bgColor='blue'>
-            <Container bgColor='red'>
+        <Box bgColor='white' color='black'py={2}>
+            <Container >
                 <IconButton size={'md'} aria-label={'Open Menu'} display={{ md: 'none' }} variant='plain' onClick={() => setIsOpen(!isOpen)} >
                     {isOpen ? <IoClose /> : <GiHamburgerMenu />}
                 </IconButton>
@@ -22,7 +22,7 @@ const Navbar = () => {
                             ))}
                             {/* <Input placeholder='search here.....' w='340px' border='1px solid #3855B3'/> */}
                     </HStack>
-                    <HStack>
+                    <HStack gap={4}>
                         <Notification />
                         <Profile />
                     </HStack>

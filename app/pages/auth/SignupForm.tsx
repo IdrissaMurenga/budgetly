@@ -8,40 +8,19 @@ import { CiLock } from 'react-icons/ci'
 import { LuEye, LuEyeClosed } from 'react-icons/lu'
 import { useMutation } from '@apollo/client'
 import { useFormik } from 'formik'
+import useSignup from '@/app/hooks/useSignup'
 
 interface Props {
   showPassword: boolean;
   handleClick: () => void;
 }
 
-const SignupForm: FC<Props> = ({showPassword, handleClick}) => {
+const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
 
-
-  const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string().required('First name is required'),
-      lastName: Yup.string().required('Last name is required'),
-      email: Yup.string().email().required('Email is required'),
-      password: Yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
-    }),
-    onSubmit: async (values) => {
-        try {
-            // const { data } = await signup({ variables:{ input:  values }})
-            // console.log(data)
-        } catch (error) {
-            console.error(error)
-        }
-    },
-  })
+  const {formik} = useSignup()
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form noValidate onSubmit={formik.handleSubmit}>
       <Grid gap='20px' color='text-primary'>
         <Flex>
           <Field.Root required>

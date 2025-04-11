@@ -14,10 +14,10 @@ interface Props {
 }
 
 const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
-  const { formik } = useLogin()
+  const { formik, loading } = useLogin()
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form noValidate onSubmit={formik.handleSubmit}>
       <Grid gap='20px' color='text-primary' >
         <Field.Root required>
           <Field.Label>
@@ -75,7 +75,18 @@ const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
           <Checkbox>Remember me</Checkbox>
           <Text fontSize='0.9rem'  cursor='pointer'>Forgot Password?</Text>
         </Flex>
-        <Button type='submit' bgColor='btn-bg-primary' color='white' fontWeight='medium' fontSize='1rem'>Sign in</Button>
+        <Button
+          disabled={loading}
+          loadingText='signing in.....'
+          loading={formik.isSubmitting}
+          type='submit' 
+          bgColor='btn-bg-primary' 
+          color='white' 
+          fontWeight='medium' 
+          fontSize='1rem'
+          >
+            Sign in
+          </Button>
       </Grid>
     </form>
   )

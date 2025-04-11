@@ -6,19 +6,19 @@ const Notification = () => {
     return (
         <Popover.Root>
             <Popover.Trigger asChild>
-                <Button variant='plain' p='0'>
+                <Button variant='plain' p='0' bg='border-third' border='none' rounded='full'>
                     <IoMdNotificationsOutline size='1.4rem' fill='bg-third' />
                 </Button>
             </Popover.Trigger>
             <Portal>
                 <Popover.Positioner>
-                    <Popover.Content>
+                    <Popover.Content bgColor='white'>
                     <Popover.Arrow />
                         <Popover.Body>
-                            <Popover.Title fontWeight="bold" fontSize='2xl' >
+                            <Popover.Title fontWeight="bold" fontSize='2xl' color="bg-secondary" >
                                 Notifications
                             </Popover.Title>
-                                <Text my="4" textAlign='center'>
+                                <Text my="4" textAlign='center' color='black'>
                                 no new notification
                             </Text>
                         </Popover.Body>
