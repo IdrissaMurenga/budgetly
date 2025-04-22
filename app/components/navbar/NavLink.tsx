@@ -8,10 +8,9 @@ import Link from 'next/link';
 
 export const LinkItems = [
     { name: 'Dashboard', icon: MdDashboard, href: '/pages/main/dashboard' },
-    { name: 'transactions', icon: FaMoneyBillTransfer, href: '/pages/main/transactions' },
     { name: 'Expenses', icon: GiPayMoney, href: '/pages/main/expenses' },
-    { name: 'Budget', icon: GiTakeMyMoney, href: '/pages/main/budget' },
     { name: 'Incomes', icon: GiReceiveMoney, href: '/pages/main/incomes' },
+    { name: 'Budget', icon: GiTakeMyMoney, href: '/pages/main/budget' },
 ]
 
 interface NavLinkProps {

@@ -35,7 +35,7 @@ export function useColorMode(): UseColorModeReturn {
   }
 }
 
-export function useColorModeValue<T>(light: T, dark: T) {
+export function useColorModeValue<T>(light: T) {
   const { colorMode } = useColorMode()
   return colorMode === "dark" ? dark : light
 }

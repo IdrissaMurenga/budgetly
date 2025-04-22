@@ -17,7 +17,7 @@ interface Props {
 
 const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
 
-  const {formik} = useSignup()
+  const {formik, isLoading} = useSignup()
 
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
@@ -124,7 +124,7 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
           )}
         </Field.Root>
 
-        <Button bgColor='btn-bg-primary' color='white' type='submit' fontSize='1rem' cursor='pointer'>Sign up</Button>
+        <Button disabled={isLoading} loadingText='signing up.....' loading={isLoading} bgColor='btn-bg-primary' color='white' type='submit' fontSize='1rem' cursor='pointer'>Sign up</Button>
       </Grid>
     </form>
   )

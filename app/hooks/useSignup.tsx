@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import {useState} from 'react'
 import { useFormik } from 'formik'
 import *  as Yup from 'yup'
 import { SIGNUP } from '../graphQL/mutations/user.mutation'
@@ -8,7 +8,8 @@ import { useRouter } from 'next/navigation'
 import { toaster } from '@/components/ui/toaster'
 
 const useSignup = () => {
-    const [signup] = useMutation(SIGNUP)
+    const [signup, {loading}] = useMutation(SIGNUP)
+    const [delayedLoading, setDelayedLoading] = useState(false)
 
     const router = useRouter()
     const client = useApolloClient()
@@ -31,8 +32,11 @@ const useSignup = () => {
                 const { data } = await signup({ variables: { input: values } })
 
                 if (data?.signup) {
+                    setDelayedLoading(true)
                     await client.resetStore()
-                    router.replace('/pages/main/dashboard')
+                    setTimeout(() => {
+                        router.replace('/pages/main/dashboard')
+                    }, 2000)
                 }
             } catch (error) {
                 if (error instanceof ApolloError) {
@@ -52,7 +56,8 @@ const useSignup = () => {
             }
         },
     })
-    return { formik }
+    const isLoading = loading || delayedLoading || formik.isSubmitting
+    return { formik, isLoading }
 }
 
 export default useSignup

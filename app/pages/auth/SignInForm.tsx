@@ -14,7 +14,7 @@ interface Props {
 }
 
 const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
-  const { formik, loading } = useLogin()
+  const { formik, isLoading } = useLogin()
 
   return (
     <form noValidate onSubmit={formik.handleSubmit}>
@@ -76,17 +76,17 @@ const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
           <Text fontSize='0.9rem'  cursor='pointer'>Forgot Password?</Text>
         </Flex>
         <Button
-          disabled={loading}
+          disabled={isLoading}
           loadingText='signing in.....'
-          loading={formik.isSubmitting}
+          loading={isLoading}
           type='submit' 
           bgColor='btn-bg-primary' 
           color='white' 
           fontWeight='medium' 
           fontSize='1rem'
-          >
+        >
             Sign in
-          </Button>
+        </Button>
       </Grid>
     </form>
   )

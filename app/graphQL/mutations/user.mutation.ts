@@ -27,5 +27,4 @@ export const LOGOUT = gql`
     mutation Logout {
         logout
     }
-
 `
