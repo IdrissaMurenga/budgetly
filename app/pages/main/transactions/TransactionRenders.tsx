@@ -1,5 +1,4 @@
-import { Card, VStack, Text, Center } from "@chakra-ui/react"
-
+import { Text, Center } from "@chakra-ui/react"
 
 interface TransactionTypeProps {
     type: 'expense' | 'income'
@@ -11,7 +10,7 @@ export const renderLoading = () => {
 export const EmptyTransaction = ({ type }: TransactionTypeProps) => {
     return (
         <Center p={8}>
-            <Text fontSize="lg" color="bg-secondary">
+            <Text fontSize="lg" color='text-primary'>
                 No {type}s created yet
             </Text>
         </Center>
@@ -24,7 +23,7 @@ export const NoTransactionForCategory = (selectedCategory: string, { type }: Tra
 
     return (
         <Center p={8}>
-            <Text fontSize="lg" color="bg-secondary">
+            <Text fontSize="lg" color='text-primary'>
                 No {type}s found for category "{selectedCategory}"
             </Text>
         </Center>

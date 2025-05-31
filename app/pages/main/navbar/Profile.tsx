@@ -1,5 +1,6 @@
 "use client"
-import { Menu, Text, Avatar, Portal, Button, Box, Spinner } from '@chakra-ui/react'
+import { Menu, Avatar, Portal, Button, Spinner } from '@chakra-ui/react'
+import { IoIosSettings } from "react-icons/io";
 import { IoLogOutOutline } from 'react-icons/io5';
 import { GET_USER } from '@/app/graphQL/queries/user.query';
 import { useQuery, useMutation } from '@apollo/client';
@@ -24,7 +25,7 @@ const Profile = () => {
         <Menu.Root>
             <Menu.Trigger asChild>
                 <Button variant="plain" size="sm" rounded='full' p='0'>
-                    <Avatar.Root size='md' bgColor='bg-secondary'>
+                    <Avatar.Root size='md' bgColor='btn-bg-primary'>
                         <Avatar.Fallback 
                             name={`${user?.firstName} ${user?.lastName}`}
                             color='white' 
@@ -50,8 +51,11 @@ const Profile = () => {
                             value="setting" 
                             color='text-primary' 
                             cursor='pointer' 
-                            _hover={{ bg: "bg-primary", color:'text-primary' }}
+                            _hover={{ bg: "bg-primary", color: 'text-primary' }}
+                            gap={2}
                         >
+                            
+                            <IoIosSettings />
                             Setting
                         </Menu.Item>
                         <Menu.Item 
@@ -61,7 +65,8 @@ const Profile = () => {
                             cursor='pointer' 
                             _hover={{ bg: "red.100", color: "error" }}
                         >
-                            Logout <IoLogOutOutline />
+                            <IoLogOutOutline />
+                            Logout
                         </Menu.Item>
                     </Menu.Content>
                 </Menu.Positioner>

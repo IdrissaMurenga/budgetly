@@ -71,16 +71,17 @@ const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
           )}
         </Field.Root>
 
-        <Flex justifyContent='space-between' color='text-secondary'>
+        <Flex justifyContent='space-between' color='text-primary'>
           <Checkbox>Remember me</Checkbox>
-          <Text fontSize='0.9rem'  cursor='pointer'>Forgot Password?</Text>
+          <Text fontSize='0.9rem' cursor='pointer'>Forgot Password?</Text>
         </Flex>
         <Button
           disabled={isLoading}
           loadingText='signing in.....'
           loading={isLoading}
           type='submit' 
-          bgColor='btn-bg-primary' 
+          bgColor='btn-bg-primary'
+          _hover={{ bgColor: 'green.600' }}
           color='white' 
           fontWeight='medium' 
           fontSize='1rem'

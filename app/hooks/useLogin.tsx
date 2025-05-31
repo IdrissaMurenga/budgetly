@@ -46,7 +46,6 @@ const useLogin = () => {
 
                     // delayed loading for 2 seconds to show the loading state
                     setTimeout(() => {
-                        
                         router.replace('/pages/main/dashboard')
                     }, 2000)
                 }

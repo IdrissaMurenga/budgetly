@@ -14,8 +14,8 @@ const Notification = () => {
                 <Popover.Positioner>
                     <Popover.Content bgColor='white'>
                     <Popover.Arrow />
-                        <Popover.Body>
-                            <Popover.Title fontWeight="bold" fontSize='2xl' color="bg-secondary" >
+                        <Popover.Body color='text-secondary' >
+                            <Popover.Title fontWeight="bold" fontSize='2xl'  >
                                 Notifications
                             </Popover.Title>
                                 <Text my="4" textAlign='center' color='black'>

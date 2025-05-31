@@ -1,13 +1,12 @@
 'use client'
-import { FC, useEffect } from "react"
-import { Button, CloseButton, Dialog, Input, Text, Textarea, Field } from "@chakra-ui/react"
-import { useExpenses, useIncomes } from "@/app/hooks/useTransactions"
+import { useEffect, useState } from "react"
+import { Button, CloseButton, Dialog, Input, Text, Textarea, Field, Grid } from "@chakra-ui/react"
+// import { useExpenses, useIncomes } from "@/app/hooks/useTransactions"
+import { useTransactions } from "@/app/hooks/useTransactions"
 
 interface Category {
     id: string
     name: string
-    // icon: string
-    // type: string
 }
 interface Transaction {
     id: string
@@ -21,8 +20,8 @@ interface UpdateTransactionFormProps {
 }
 
 const UpdateTransactionForm = ({ type, transaction }: UpdateTransactionFormProps) => {
-    const { handleUpdate, setForm, form, setForEdit } = type === 'expense' ? useExpenses() : useIncomes()
-    
+    const { handleUpdate, setForm, form, setForEdit } = useTransactions(type)
+
     useEffect(() => {
         setForEdit(transaction)
     },[transaction])
@@ -33,10 +32,10 @@ const UpdateTransactionForm = ({ type, transaction }: UpdateTransactionFormProps
             <Dialog.Positioner>
                 <Dialog.Content bgColor='white' color='text-primary' h='auto' borderRadius='md' p={4} boxShadow='lg'>
                     <Dialog.Header>
-                        <Dialog.Title>Update your {type.charAt(0).toUpperCase() + type.slice(1)}.</Dialog.Title>
+                        <Dialog.Title>Update your Transaction details.</Dialog.Title>
                     </Dialog.Header>
                     <Dialog.Body>
-                        <form onSubmit={(e)=>handleUpdate(e, transaction.id)}>
+                        <form onSubmit={(e) => handleUpdate(e, transaction.id)}>
                             <Field.Root required >
                                 <Field.Label>
                                     <Text fontWeight='bold'>Amount</Text>
@@ -68,24 +67,26 @@ const UpdateTransactionForm = ({ type, transaction }: UpdateTransactionFormProps
                                 />
                             </Field.Root>
                             <Dialog.ActionTrigger asChild>
-                                <Button                                
-                                    type="submit"
-                                    variant='solid'
-                                    bgColor='bg-secondary'
-                                    size='sm'
-                                    color='white'
-                                    fontWeight='bold'
-                                    fontSize='0.8rem'
-                                    px={4} py={2}
-                                    borderRadius='md' mt={4}
-                                >
-                                    udpate Expense
-                                </Button>
+                                <Grid>
+                                    <Button                                
+                                        type="submit"
+                                        variant='solid'
+                                        bgColor='bg-secondary'
+                                        size='sm'
+                                        color='white'
+                                        fontWeight='bold'
+                                        fontSize='0.8rem'
+                                        px={4} py={2}
+                                        borderRadius='md' mt={4}
+                                    >
+                                        submit
+                                    </Button>
+                                </Grid>
                             </Dialog.ActionTrigger>
                         </form>
                     </Dialog.Body>
                     <Dialog.CloseTrigger asChild>
-                        <CloseButton size="sm" />
+                        <CloseButton size="sm" variant='plain' />
                     </Dialog.CloseTrigger>
                 </Dialog.Content>
             </Dialog.Positioner>

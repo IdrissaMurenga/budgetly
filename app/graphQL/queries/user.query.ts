@@ -5,6 +5,11 @@ export const GET_USER = gql`
         me {
             firstName
             lastName
+            salary {
+                id
+                amount
+                currency
+            }
             expenses {
                 id
                 amount

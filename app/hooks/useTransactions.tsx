@@ -1,12 +1,13 @@
 'use client'
 import { useState } from "react"
-import { useQuery, useMutation } from "@apollo/client"
+import { useQuery, useMutation, ApolloError } from "@apollo/client"
 import { GET_EXPENSES } from "../graphQL/queries/expenses.query"
 import { GET_INCOMES } from "../graphQL/queries/income.query"
-import { ADD_EXPENSE, UPDATE_EXPENSE, DELETE_EXPENSE } from "../graphQL/mutations/expenses.mutaion"
 import { ADD_INCOME, UPDATE_INCOME, DELETE_INCOME } from "../graphQL/mutations/income.mutation"
+import { ADD_EXPENSE, UPDATE_EXPENSE, DELETE_EXPENSE } from "../graphQL/mutations/expenses.mutaion"
 import { useCategoryFilter } from "../context/CategoryFilter"
-import { useExpenseCategories, useIncomeCategories } from "./useCategories"
+import { useCategories } from "./useCategories"
+import { toaster } from "@/components/ui/toaster"
 
 interface TransactionFormValues {
     amount: string
@@ -17,44 +18,51 @@ interface TransactionFormValues {
 interface Category {
     id: string
     name: string
-    // icon: string
-    // type: string
 }
 
 interface Transaction {
-    id: string
     amount: number
     description: string
     category: Category
 }
 
-// transaction configuration
-interface TransactionConfig {
-    type: 'expense' | 'income'
-    queries: {
-        get: any
-        add: any
-        update: any
-        delete: any
-    }
-}
+type TypeFilter = 'all' | 'income' | 'expense'
 
-export const useTransactions = (config: TransactionConfig) => {
+export const useTransactions = (type: TypeFilter) => {
     const [form, setForm] = useState<TransactionFormValues>({
         amount: '',
         description: '',
         categoryId: '',
     })
 
-    const { categoriesData, loading, error } = config.type === 'expense' ? useExpenseCategories() : useIncomeCategories()
-    const { data: transactionData } = useQuery(config.queries.get, {fetchPolicy:'cache-first'})
     const { selectedCategory } = useCategoryFilter()
+    const { data: incomeData } = useQuery(GET_INCOMES, { fetchPolicy: 'cache-first' })
+    const { data: expenseData } = useQuery(GET_EXPENSES, { fetchPolicy: 'cache-first' })
 
-    const commonOptions = { refetchQueries: [{ query: config.queries.get }] }
+    const income = incomeData?.incomes || []
+    const expense = expenseData?.expenses || []
+
+    const transactionData = type === 'all' ? [...income, ...expense] : type === 'expense' ? expense : income
+
+    const filterTransaction = selectedCategory ? transactionData.filter((transaction: Transaction) => transaction.category.name === selectedCategory) : transactionData
     
-    const [addTransaction] = useMutation(config.queries.add, commonOptions)
-    const [deleteTransaction] = useMutation(config.queries.delete, commonOptions)
-    const [updateTransaction] = useMutation(config.queries.update, commonOptions)
+    // Pick proper mutations
+    const addMutation = type === "expense" ? ADD_EXPENSE : ADD_INCOME;
+    const updateMutation = type === "expense" ? UPDATE_EXPENSE : UPDATE_INCOME;
+    const deleteMutation = type === "expense" ? DELETE_EXPENSE : DELETE_INCOME;
+    const refetchQuery = type === "expense" ? GET_EXPENSES : GET_INCOMES;
+
+    const [addTransaction] = useMutation(addMutation, {
+        refetchQueries: [{ query: refetchQuery }],
+    });
+
+    const [deleteTransaction] = useMutation(deleteMutation, {
+        refetchQueries: [{ query: refetchQuery }],
+    });
+
+    const [updateTransaction] = useMutation(updateMutation, {
+        refetchQueries: [{ query: refetchQuery }],
+    });
 
     const resetForm = () => setForm({ amount: '', description: '', categoryId: '' })
 
@@ -87,18 +95,20 @@ export const useTransactions = (config: TransactionConfig) => {
             })
             resetForm()
         } catch (error) {
-            console.error(`Error adding ${config.type}:`, error)
+            if (error instanceof ApolloError) {
+                // if error is an instance of ApolloError then show the error message
+                const erroMessage = error.graphQLErrors[0]?.message
+                toaster.create({
+                    title: erroMessage,
+                    type: 'warning',
+                    duration: 4000,
+                })
+            }
         }
     }
     
     const handleDelete = async (id: string) => {
-        try {
-            await deleteTransaction({
-                variables: { id }
-            })
-        } catch (error) {
-            console.error(`Error deleting ${config.type}:`, error)
-        }
+        await deleteTransaction({variables: { id }})
     }
 
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>, id: string) => {
@@ -115,13 +125,9 @@ export const useTransactions = (config: TransactionConfig) => {
             })
             resetForm()
         } catch (error) {
-            console.error(`Error updating ${config.type}:`, error)
+            console.error(`Error updating ${type}:`, error)
         }
     }
-
-    const filterTransactions = selectedCategory 
-        ? transactionData?.[config.type === 'expense' ? 'expenses' : 'incomes']?.filter((transaction:Transaction) => transaction.category.name === selectedCategory) 
-        : transactionData?.[config.type === 'expense' ? 'expenses' : 'incomes']
 
     const setForEdit = (transaction: Transaction) => {
         setForm({
@@ -132,41 +138,15 @@ export const useTransactions = (config: TransactionConfig) => {
     }
 
     return {
-        categoriesData,
-        loading,
-        error,
+        transactionData,
         handleAdd,
-        filterTransactions,
+        filterTransaction,
         selectedCategory,
         setForm,
         form,
         handleDelete,
         handleUpdate,
         setForEdit,
+        useCategories
     }
-}
-
-// Export specific hooks for expenses and incomes
-export const useExpenses = () => {
-    return useTransactions({
-        type: 'expense',
-        queries: {
-            get: GET_EXPENSES,
-            add: ADD_EXPENSE,
-            update: UPDATE_EXPENSE,
-            delete: DELETE_EXPENSE
-        }
-    })
-}
-
-export const useIncomes = () => {
-    return useTransactions({
-        type: 'income',
-        queries: {
-            get: GET_INCOMES,
-            add: ADD_INCOME,
-            update: UPDATE_INCOME,
-            delete: DELETE_INCOME
-        }
-    })
 }

@@ -1,13 +1,10 @@
 'use client'
-import * as Yup from 'yup' 
 import { FC } from 'react'
 import { InputGroup } from '@/components/ui/input-group'
 import { Text, Button, Flex, Field, Input, Grid } from '@chakra-ui/react'
 import { MdOutlineEmail } from 'react-icons/md'
 import { CiLock } from 'react-icons/ci'
 import { LuEye, LuEyeClosed } from 'react-icons/lu'
-import { useMutation } from '@apollo/client'
-import { useFormik } from 'formik'
 import useSignup from '@/app/hooks/useSignup'
 
 interface Props {
@@ -39,7 +36,7 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
                 w='174px'
                 h='48px'
                 bgColor='white'
-                border={formik.errors.firstName ? '1px solid red' : '1px solid #E5E7EA'}
+                border={formik.errors.firstName && formik.touched.firstName ? '1px solid red' : '1px solid #E5E7EA'}
               />
             </InputGroup>
             {formik.touched.firstName && formik.errors.firstName && (
@@ -63,7 +60,7 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
                 w='174px'
                 h='48px'
                 bgColor='white'
-                border={formik.errors.lastName ? '1px solid red' : '1px solid #E5E7EA'}
+                border={formik.errors.lastName && formik.touched.firstName ? '1px solid red' : '1px solid #E5E7EA'}
               />
             </InputGroup>
             {formik.touched.lastName && formik.errors.lastName && (
@@ -88,7 +85,7 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
               w='365px'
               h='48px'
               bgColor='white'
-              border={formik.errors.email ? '1px solid red' : '1px solid #E5E7EA'}
+              border={formik.errors.email && formik.touched.email ? '1px solid red' : '1px solid #E5E7EA'}
             />
           </InputGroup>
           {formik.touched.email && formik.errors.email && (
@@ -116,7 +113,7 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
               w='365px'
               h='48px'
               bgColor='white'
-              border={formik.errors.password ? '1px solid red' : '1px solid #E5E7EA'}
+              border={formik.errors.password && formik.touched.password ? '1px solid red' : '1px solid #E5E7EA'}
             />
           </InputGroup>
           {formik.touched.password && formik.errors.password && (
@@ -124,7 +121,19 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
           )}
         </Field.Root>
 
-        <Button disabled={isLoading} loadingText='signing up.....' loading={isLoading} bgColor='btn-bg-primary' color='white' type='submit' fontSize='1rem' cursor='pointer'>Sign up</Button>
+        <Button
+          disabled={isLoading}
+          loadingText='signing up.....'
+          loading={isLoading}
+          bgColor='btn-bg-primary'
+          _hover={{bgColor: 'green.600'}}
+          color='white'
+          type='submit'
+          fontSize='1rem'
+          cursor='pointer'
+        >
+          Sign up
+        </Button>
       </Grid>
     </form>
   )

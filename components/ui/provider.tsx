@@ -7,10 +7,10 @@ import {
 } from "./color-mode"
 import { system } from "../theme/theme"
 
-export function Provider(props: ColorModeProviderProps) {
+export function Provider(props: {children: React.ReactNode}) {
   return (
     <ChakraProvider value={system}>
-      <ColorModeProvider {...props} />
+      {props.children}
     </ChakraProvider>
   )
 }

@@ -1,20 +1,21 @@
 'use client'
-import { Grid, VStack } from "@chakra-ui/react"
-import Navbar from "@/app/components/navbar/Navbar";
+import { Grid, Stack } from "@chakra-ui/react"
 import AuthGuard from "@/app/components/AuthGuard";
 import { CategoryFilterProvider } from "@/app/context/CategoryFilter";
+import { SalaryCurrencyProvider } from "@/app/context/SalaryCurrency";
+import Navbar from "./navbar/page";
 
 
 export default function MainPageLayout ({children}: {children: React.ReactNode}) {
     return (
         <AuthGuard>
-            <Grid gap={2} h='100vh' templateRows='auto 1fr'>
+            <Grid templateRows='auto 1fr' color='text-primary'>
                 <Navbar />
-                <VStack bgColor='white' color='text-primary'>
-                    <CategoryFilterProvider>
+                <CategoryFilterProvider>
+                    <SalaryCurrencyProvider>
                         {children}
-                    </CategoryFilterProvider>
-                </VStack>
+                    </SalaryCurrencyProvider>
+                </CategoryFilterProvider>
             </Grid>
         </AuthGuard>
     )
