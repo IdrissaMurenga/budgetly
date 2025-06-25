@@ -13,7 +13,7 @@ import { formatAmount } from "@/app/utils/formatAmount";
 
 
 const TransactionsList = () => {
-    const [type, setType] = useState<'all' | 'expense' | 'income'>('all')
+    const [type, setType] = useState<'transaction' | 'expense' | 'income'>('transaction')
     const [updateType, setUpdateType] = useState<'expense' | 'income'>('expense')
     const { currency } = useSalaryCurrency()
     const { filterTransaction, selectedCategory, handleDelete } = useTransactions(type)
@@ -21,10 +21,10 @@ const TransactionsList = () => {
         <Stack>
             <ButtonGroup>
                 <Button
-                    bgColor={type === 'all' ? 'bg-secondary' : 'gray.200'}
-                    variant={type === 'all' ? 'solid' : 'outline'}
-                    onClick={() => setType('all')} 
-                    data-active={type === 'all'}
+                    variant={type === 'transaction' ? 'solid' : 'outline'}
+                    bgColor={type === 'transaction' ? 'bg-secondary' : 'gray.200'}
+                    onClick={() => setType('transaction')} 
+                    data-active={type === 'transaction'}
                 >
                     All
                 </Button>
@@ -46,7 +46,7 @@ const TransactionsList = () => {
                 </Button>
             </ButtonGroup>
             {(!filterTransaction || filterTransaction.length === 0) ? (
-                type === 'all' ? EmptyTransaction({ type: 'expense' })
+                type === 'transaction' ? EmptyTransaction({ type })
                 : selectedCategory ?
                 NoTransactionForCategory(selectedCategory, { type })
                 : EmptyTransaction({ type })

@@ -15,15 +15,15 @@ const RecentActivity = () => {
     console.log('recent activity', recentActivity)
     return (
         <Stack py={4}>
-            <Heading size='xl' fontWeight='bold' color='text-secondary' >Recent Activity</Heading>
-            <Table.Root bgColor='white' variant='outline' rounded='md' size='sm'>
+            <Heading size='xl' fontWeight='bold' color='bg-secondary' >Recent Activity</Heading>
+            <Table.Root bgColor='white' variant='outline' rounded='md' size='md'>
                 <Table.Header>
-                    <Table.Row fontSize='md' w='60px' mx='auto'>
-                        <Table.ColumnHeader fontWeight='bold' textAlign='center'>Type</Table.ColumnHeader>
-                        <Table.ColumnHeader fontWeight='bold' textAlign='center'>Amount</Table.ColumnHeader>
-                        <Table.ColumnHeader fontWeight='bold' textAlign='center'>Description</Table.ColumnHeader>
-                        <Table.ColumnHeader fontWeight='bold' textAlign='center'>Category</Table.ColumnHeader>
-                        <Table.ColumnHeader fontWeight='bold' textAlign='center'>Date</Table.ColumnHeader>
+                    <Table.Row fontSize='md' w='60px' mx='auto' >
+                        <Table.ColumnHeader textAlign='center'>Type</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign='center'>Amount</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign='center'>Description</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign='center'>Category</Table.ColumnHeader>
+                        <Table.ColumnHeader textAlign='center'>Date</Table.ColumnHeader>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

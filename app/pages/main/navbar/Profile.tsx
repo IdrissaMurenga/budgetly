@@ -7,6 +7,7 @@ import { useQuery, useMutation } from '@apollo/client';
 import { LOGOUT } from '@/app/graphQL/mutations/user.mutation';
 import { redirect } from 'next/navigation';
 import { useApolloClient } from "@apollo/client";
+import Link from 'next/link';
 const Profile = () => {
     const { data, loading } = useQuery(GET_USER);
     const [logout] = useMutation(LOGOUT)
@@ -25,7 +26,7 @@ const Profile = () => {
         <Menu.Root>
             <Menu.Trigger asChild>
                 <Button variant="plain" size="sm" rounded='full' p='0'>
-                    <Avatar.Root size='md' bgColor='btn-bg-primary'>
+                    <Avatar.Root size='md' bgColor='bg-secondary'>
                         <Avatar.Fallback 
                             name={`${user?.firstName} ${user?.lastName}`}
                             color='white' 
@@ -47,17 +48,18 @@ const Profile = () => {
                         >
                             {user?.firstName} {user?.lastName}
                         </Menu.Item>
-                        <Menu.Item 
-                            value="setting" 
-                            color='text-primary' 
-                            cursor='pointer' 
-                            _hover={{ bg: "bg-primary", color: 'text-primary' }}
-                            gap={2}
-                        >
-                            
-                            <IoIosSettings />
-                            Setting
-                        </Menu.Item>
+                        <Link href="/pages/main/settings">
+                            <Menu.Item 
+                                value="setting" 
+                                color='text-primary' 
+                                cursor='pointer' 
+                                _hover={{ bg: "bg-primary", color: 'text-primary' }}
+                                gap={2}
+                            >
+                                    <IoIosSettings />
+                                    Setting
+                            </Menu.Item>
+                        </Link>
                         <Menu.Item 
                             value="logout"
                             onClick={handleLogout}

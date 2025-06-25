@@ -6,27 +6,7 @@ export const GET_DASHBOARD_SUMMARY = gql`
             totalExpenses
             totalIncomes
             totalSavings
-            salaryCurrentBalance
-            budgetGoal
-            budgetProgress
-            last7days {
-                id
-                total
-            }
-            last24hours {
-                id
-                total
-            }
-            last30days {
-                id
-                total
-            }
-            pieChartData {
-                total
-                category{
-                    name
-                }
-            }
+            balance
         }
     }
 `

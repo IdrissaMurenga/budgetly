@@ -28,13 +28,12 @@ const NavLink = ({ name, href, icon }: NavLinkProps) => {
                 <Icon 
                     as={icon}
                     size='md'
-                    fill={isActive ? 'text-secondary' : 'text-third'}
+                    fill={isActive ? 'bg-secondary' : 'text-third'}
                 />
                 <Text
                     color={isActive ? 'text-primary' : 'text-third'}
                     fontWeight={isActive ? 'bold' : 'normal'}
                     fontSize='md'
-                    
                 >
                     {name}
                 </Text>

@@ -80,8 +80,8 @@ const SignInForm: FC<Props> = ({ showPassword, handleClick }) => {
           loadingText='signing in.....'
           loading={isLoading}
           type='submit' 
-          bgColor='btn-bg-primary'
-          _hover={{ bgColor: 'green.600' }}
+          bgColor='bg-secondary'
+          _hover={{ bgColor: 'blue.600' }}
           color='white' 
           fontWeight='medium' 
           fontSize='1rem'

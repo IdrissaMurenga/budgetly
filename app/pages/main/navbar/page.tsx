@@ -16,7 +16,7 @@ const Navbar = () => {
         setOpen(true);
     };
     return (
-        <Stack bgColor='white' mb='.5rem' py={2} px={4} >
+        <Stack bgColor='white' mb='.5rem' py={2} px={4} pos='sticky' boxShadow='sm' top={0} zIndex={1000}>
             <Container display='flex' justifyContent='space-between' alignItems='center'>
                 <Box display={{ lg: 'none' }}>
                     <IconButton onClick={open ? handleClose : handleOpen} variant='plain' size='md'>

@@ -16,7 +16,12 @@ const AuthPage = () => {
             <VStack bgColor='bg-primary' w='450px' p={4} alignItems='center' mx='auto' rounded='xl' >
                 <VStack alignItems='center' p={4}>
                     <Image src='/logo.png' alt='logo-image' w='70px' />
-                    <Text color='text-primary' fontSize='text-xl' fontWeight='bold'>Welcome to Budgetly</Text>
+                    {isLoginForm
+                        ?
+                        <Text color='text-primary' fontSize='text-xl' fontWeight='bold'>Welcome Back to Budgetly</Text>
+                        :
+                        <Text color='text-primary' fontSize='text-xl' fontWeight='bold'>Welcome to Budgetly</Text>
+                    }
                     <Text color='text-primary' textAlign='center' fontSize='0.9rem'>Plan smarter, spend wiser, unlock new insights, save money, and achieve financial freedom</Text>
                 </VStack>
                 {isLoginForm ?
@@ -33,14 +38,14 @@ const AuthPage = () => {
                 {isLoginForm ? 
                     <Text color='text-primary'>
                         Don't have an account? 
-                        <Button onClick={handleClick} variant='plain' px={2} color='text-secondary'>
+                        <Button onClick={handleClick} variant='plain' px={2} color='bg-secondary'>
                             Sign Up
                         </Button>
                     </Text> 
                 : 
                     <Text color='text-primary'>
                         Already have an account? 
-                        <Button onClick={handleClick} variant='plain' px={2} color='text-secondary'>
+                        <Button onClick={handleClick} variant='plain' px={2} color='bg-secondary'>
                             Sign In
                         </Button>
                     </Text>

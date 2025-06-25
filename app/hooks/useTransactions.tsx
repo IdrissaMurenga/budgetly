@@ -4,7 +4,7 @@ import { useQuery, useMutation, ApolloError } from "@apollo/client"
 import { GET_EXPENSES } from "../graphQL/queries/expenses.query"
 import { GET_INCOMES } from "../graphQL/queries/income.query"
 import { ADD_INCOME, UPDATE_INCOME, DELETE_INCOME } from "../graphQL/mutations/income.mutation"
-import { ADD_EXPENSE, UPDATE_EXPENSE, DELETE_EXPENSE } from "../graphQL/mutations/expenses.mutaion"
+import { ADD_EXPENSE, UPDATE_EXPENSE, DELETE_EXPENSE } from "../graphQL/mutations/expenses.mutation"
 import { useCategoryFilter } from "../context/CategoryFilter"
 import { useCategories } from "./useCategories"
 import { toaster } from "@/components/ui/toaster"
@@ -26,7 +26,7 @@ interface Transaction {
     category: Category
 }
 
-type TypeFilter = 'all' | 'income' | 'expense'
+type TypeFilter = 'transaction' | 'income' | 'expense'
 
 export const useTransactions = (type: TypeFilter) => {
     const [form, setForm] = useState<TransactionFormValues>({
@@ -41,8 +41,9 @@ export const useTransactions = (type: TypeFilter) => {
 
     const income = incomeData?.incomes || []
     const expense = expenseData?.expenses || []
+    const categories = useCategories()
 
-    const transactionData = type === 'all' ? [...income, ...expense] : type === 'expense' ? expense : income
+    const transactionData = type === 'transaction' ? [...expense, ...income] : type === 'expense' ? expense : income
 
     const filterTransaction = selectedCategory ? transactionData.filter((transaction: Transaction) => transaction.category.name === selectedCategory) : transactionData
     
@@ -66,19 +67,21 @@ export const useTransactions = (type: TypeFilter) => {
 
     const resetForm = () => setForm({ amount: '', description: '', categoryId: '' })
 
+    const isFormValid = () => {
+        if (!form.categoryId) {
+            alert("Please select a category")
+            return false
+        }
+        if (!form.amount || !form.description) {
+            alert("Please fill in all fields")
+            return false
+        }
+        return true
+    }
     const handleAdd = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         try {
-            if (!form.categoryId) {
-                alert("Please select a category")
-                return
-            }
-
-            if (!form.amount || !form.description) {
-                alert("Please fill in all fields")
-                return
-            }
-
+            if (!isFormValid()) return
             await addTransaction({
                 variables: {
                     input: {                        
@@ -97,10 +100,10 @@ export const useTransactions = (type: TypeFilter) => {
         } catch (error) {
             if (error instanceof ApolloError) {
                 // if error is an instance of ApolloError then show the error message
-                const erroMessage = error.graphQLErrors[0]?.message
+                const erroMessage = error.graphQLErrors[0]?.message || "An unexpected error occurred"
                 toaster.create({
                     title: erroMessage,
-                    type: 'warning',
+                    type: 'error',
                     duration: 4000,
                 })
             }
@@ -108,7 +111,20 @@ export const useTransactions = (type: TypeFilter) => {
     }
     
     const handleDelete = async (id: string) => {
-        await deleteTransaction({variables: { id }})
+        try {
+            await deleteTransaction({variables: { id }})
+        } catch (error) {
+            console.error(`Error deleting ${type}:`, error)
+            if (error instanceof ApolloError) {
+                // if error is an instance of ApolloError then show the error message
+                const erroMessage = error.graphQLErrors[0]?.message || "An unexpected error occurred"
+                toaster.create({
+                    title: erroMessage,
+                    type: 'error',
+                    duration: 4000,
+                })
+            }
+        }
     }
 
     const handleUpdate = async (e: React.FormEvent<HTMLFormElement>, id: string) => {
@@ -126,6 +142,15 @@ export const useTransactions = (type: TypeFilter) => {
             resetForm()
         } catch (error) {
             console.error(`Error updating ${type}:`, error)
+            if (error instanceof ApolloError) {
+                // if error is an instance of ApolloError then show the error message
+                const erroMessage = error.graphQLErrors[0]?.message || "An unexpected error occurred"
+                toaster.create({
+                    title: erroMessage,
+                    type: 'error',
+                    duration: 4000,
+                })
+            }
         }
     }
 
@@ -147,6 +172,6 @@ export const useTransactions = (type: TypeFilter) => {
         handleDelete,
         handleUpdate,
         setForEdit,
-        useCategories
+        categories
     }
 }

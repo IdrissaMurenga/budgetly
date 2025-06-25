@@ -125,8 +125,8 @@ const SignupForm: FC<Props> = ({ showPassword, handleClick }) => {
           disabled={isLoading}
           loadingText='signing up.....'
           loading={isLoading}
-          bgColor='btn-bg-primary'
-          _hover={{bgColor: 'green.600'}}
+          bgColor='bg-secondary'
+          _hover={{bgColor: 'blue.600'}}
           color='white'
           type='submit'
           fontSize='1rem'

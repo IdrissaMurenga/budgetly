@@ -5,7 +5,6 @@ import { CategoryFilterProvider } from "@/app/context/CategoryFilter";
 import { SalaryCurrencyProvider } from "@/app/context/SalaryCurrency";
 import Navbar from "./navbar/page";
 
-
 export default function MainPageLayout ({children}: {children: React.ReactNode}) {
     return (
         <AuthGuard>
